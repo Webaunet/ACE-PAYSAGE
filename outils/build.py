@@ -19,7 +19,7 @@ def part(name):
     return m.group(1)
 
 
-GROUPS, SEASONS, ABOUT, CTA = (part(n) for n in ("GROUPS", "SEASONS", "ABOUT", "CTA"))
+PREST, SEASONS, ABOUT, CTA = (part(n) for n in ("PREST", "SEASONS", "ABOUT", "CTA"))
 
 NAV = [
     ("index.html", "Accueil"),
@@ -142,7 +142,7 @@ PAGES = {}
 # Accueil
 PAGES["index.html"] = ("A.R Paysage",
                        "A.R Paysage, aménagement paysager au Val-Saint-Germain (91) : création de jardin, plantation, entretien.",
-                       HOME.replace("<!--GROUPS-->\n", "").replace("<!--/GROUPS-->\n", "")
+                       HOME.replace("<!--PREST-->\n", "").replace("<!--/PREST-->\n", "")
                        .replace("<!--SEASONS-->\n", "").replace("<!--/SEASONS-->\n", "")
                        .replace("<!--ABOUT-->\n", "").replace("<!--/ABOUT-->\n", "")
                        .replace("<!--CTA-->\n", "").replace("<!--/CTA-->\n", ""))
@@ -153,7 +153,7 @@ PAGES["prestations.html"] = (
     "Prestations d'A.R Paysage au Val-Saint-Germain : création d'espaces verts, plantation, terrassement, tonte, taille de haies, désherbage.",
     page_hero("Prestations", "Prestations", "Aménager et entretenir votre jardin.",
               "De la création du jardin à son entretien au fil des saisons, A.R Paysage intervient aux différentes étapes.")
-    + '  <section class="section" aria-label="Liste des prestations">\n    <div class="wrap">\n' + GROUPS + '    </div>\n  </section>\n'
+    + PREST
     + SEASONS + CTA)
 
 # Réalisations
@@ -168,11 +168,15 @@ GALLERY = [
     ("terrassement.jpg", 1376, 768, "68% 50%", "Terre décaissée à la pelle, brouette et tas de terre à côté d'une pelouse", "Terrassement", "Terrain décaissé"),
     ("feuilles.jpg", 1400, 764, "68% 50%", "Ramassage des feuilles d'automne au râteau, avec sac de jardin et brouette", "Jardin en automne", "Ramassage des feuilles"),
 ]
-figs = "\n".join(
+def fig_html(items):
+    return "\n".join(
     f'''        <figure class="real">
           <img src="img/{f}" width="{w}" height="{h}" loading="lazy" style="object-position:{pos}" alt="{alt}">
           <figcaption>{cap}<span>{sub}</span></figcaption>
-        </figure>''' for f, w, h, pos, alt, cap, sub in GALLERY)
+        </figure>''' for f, w, h, pos, alt, cap, sub in items)
+
+
+figs = (fig_html(GALLERY[:6]), fig_html(GALLERY[6:]))
 PAGES["realisations.html"] = (
     "Réalisations · A.R Paysage",
     "Aperçu de travaux d'aménagement et d'entretien de jardin par A.R Paysage, au Val-Saint-Germain.",
@@ -181,7 +185,14 @@ PAGES["realisations.html"] = (
     + f'''  <section class="section" aria-label="Galerie">
     <div class="wrap">
       <div class="real-grid">
-{figs}
+{figs[0]}
+      </div>
+    </div>
+  </section>
+  <section class="section band-tint" aria-label="Galerie, suite">
+    <div class="wrap">
+      <div class="real-grid real-big">
+{figs[1]}
       </div>
     </div>
   </section>

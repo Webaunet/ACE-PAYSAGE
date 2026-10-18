@@ -248,11 +248,6 @@ section[id],header[id]{scroll-margin-top:84px}
 
 /* Différenciation des sections */
 .eyebrow::before{content:"";display:inline-block;width:28px;height:2px;background:currentColor;vertical-align:middle;margin-right:.75rem;opacity:.8}
-.group{border-radius:28px;padding:clamp(18px,3.2vw,44px);border:1px solid var(--line)}
-.group + .group{margin-top:clamp(24px,3vw,40px)}
-.group{background:var(--tint);border-color:transparent}
-.group + .group{background:var(--surface);border-color:var(--line)}
-.group-title h3{font-size:1.7rem}
 #realisations{position:relative;background:var(--accent-soft);padding-block:clamp(96px,11vw,150px)}
 #realisations::before,#realisations::after{
   content:"";position:absolute;left:0;right:0;height:clamp(28px,4vw,56px);pointer-events:none;
@@ -264,3 +259,37 @@ section[id],header[id]{scroll-margin-top:84px}
 #realisations .real img{border-radius:18px 18px 18px 60px}
 #a-propos .about-grid{background:var(--surface);border:1px solid var(--line);border-radius:32px;padding:clamp(18px,4vw,56px);box-sizing:border-box}
 .season{background:var(--bg);border-radius:0 0 18px 18px;padding:1.1rem 1.2rem 1.3rem}
+.band-tint{background:var(--tint)}
+
+/* Écrans larges : chaque section occupe entre 100 et 120 % de la hauteur de la fenêtre */
+@media (min-width:1100px) and (min-height:600px){
+  main > section{min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+  .section{padding-block:clamp(48px,9vh,100px)}
+  .section-head{margin-bottom:clamp(24px,5vh,48px)}
+  .hero{padding-block:clamp(32px,6vh,64px) clamp(72px,12vh,120px)}
+  .hero-media img{height:clamp(340px,58vh,640px)}
+  .hero h1{font-size:clamp(2.5rem,5.4vw,4.6rem)}
+  .page-hero{padding-block:clamp(26px,4vh,44px) clamp(72px,12vh,110px)}
+  .page-hero .eyebrow{margin-top:clamp(28px,8vh,90px)}
+  .page-hero h1{font-size:clamp(2.6rem,6vw,5.2rem)}
+  .grid-2{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .grid-6{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .grid-6 > .card,.grid-6 > .card:nth-child(n+4){grid-column:span 1}
+  .card .ph,.grid-6 .card .ph{aspect-ratio:auto;height:clamp(130px,24vh,280px)}
+  .card h4{font-size:1.2rem}
+  .card p{font-size:.97rem}
+  #realisations{padding-block:clamp(92px,14vh,140px)}
+  .real img{aspect-ratio:auto;height:clamp(150px,28vh,310px)}
+  .real-big img{height:clamp(220px,50vh,540px)}
+  .season{min-height:30vh;display:flex;flex-direction:column;justify-content:flex-start}
+  .season h3{font-size:1.8rem}
+  .season ul{font-size:1.02rem}
+  .about-media img{aspect-ratio:auto;height:clamp(300px,54vh,540px)}
+  #a-propos .about-grid{padding:clamp(18px,4.5vh,52px) clamp(24px,4vw,56px)}
+  #a-propos .about-body h2{font-size:clamp(1.8rem,3.2vw,2.5rem)}
+  #a-propos .about-body p{margin-top:.8rem;font-size:1rem}
+  .id-card{margin-top:1.2rem}
+  .id-card div{padding:.5rem 0}
+  .cta{padding-block:clamp(88px,15vh,136px) clamp(60px,10vh,96px)}
+  .cta-media img{aspect-ratio:auto;height:clamp(300px,60vh,600px)}
+}
