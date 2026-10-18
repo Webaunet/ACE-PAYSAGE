@@ -98,7 +98,7 @@ def page(fname, title, desc, body):
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap">
 <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body{' class="page-home"' if fname == "index.html" else ""}>
 {header(fname)}
 <main>
 {body}
