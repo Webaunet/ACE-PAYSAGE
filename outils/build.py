@@ -2,8 +2,8 @@
 """Génère les pages HTML du site A.R Paysage (maquette).
 
 Usage : python3 outils/build.py   (depuis la racine du dépôt)
-Source de l'accueil : outils/pages/index.html (contenu de <main>, avec marqueurs
-<!--GROUPS-->, <!--SEASONS-->, <!--ABOUT-->, <!--CTA--> réutilisés par les autres pages).
+Le corps de l'accueil est dans outils/pages/index.html ; les autres pages sont composées ici.
+Chaque page a son propre contenu, sa propre mise en page et ses propres textes.
 """
 import os
 import re
@@ -11,15 +11,6 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HOME = open(os.path.join(ROOT, "outils", "pages", "index.html"), encoding="utf-8").read()
-
-
-def part(name):
-    m = re.search(r"<!--%s-->\n(.*?)<!--/%s-->" % (name, name), HOME, re.S)
-    assert m, "marqueur absent : " + name
-    return m.group(1)
-
-
-PREST, SEASONS, ABOUT, CTA = (part(n) for n in ("PREST", "SEASONS", "ABOUT", "CTA"))
 
 NAV = [
     ("index.html", "Accueil"),
@@ -119,15 +110,81 @@ def page(fname, title, desc, body):
 '''
 
 
-def page_hero(crumb, eyebrow, h1, lead):
-    return f'''  <section class="page-hero" aria-labelledby="h1">
-    <div class="wrap">
-      <nav class="crumbs" aria-label="Fil d'Ariane"><a href="index.html">Accueil</a> / <span>{crumb}</span></nav>
+def page_hero(crumb, eyebrow, h1, lead, media="", actions=""):
+    head = f'<nav class="crumbs" aria-label="Fil d\'Ariane"><a href="index.html">Accueil</a> / <span>{crumb}</span></nav>'
+    if media:
+        inner = f'''      {head}
+      <div class="page-hero-grid">
+        <div>
+          <p class="eyebrow">{eyebrow}</p>
+          <h1 id="h1">{h1}</h1>
+          <p class="lead">{lead}</p>
+          {actions}
+        </div>
+        {media}
+      </div>'''
+        cls = "page-hero has-media"
+    else:
+        inner = f'''      {head}
       <p class="eyebrow">{eyebrow}</p>
       <h1 id="h1">{h1}</h1>
-      <p class="lead">{lead}</p>
+      <p class="lead">{lead}</p>'''
+        cls = "page-hero"
+    return f'''  <section class="{cls}" aria-labelledby="h1">
+    <div class="wrap">
+{inner}
     </div>
     {WAVE % ""}
+  </section>
+'''
+
+
+def phone_block(extra_btn=""):
+    return f'''<a class="phone" href="tel:+33699201849" id="phone">06 99 20 18 49</a>
+        <div class="cta-actions">
+          <a class="btn btn-band" href="tel:+33699201849">Appeler</a>
+          <button class="btn btn-ghost" type="button" id="copy">Copier le numéro</button>
+          {extra_btn}
+          <span class="copied" id="copied" role="status" aria-live="polite"></span>
+        </div>'''
+
+
+def cta_split(eyebrow, heading, lead, img, alt, pos, info="", h="h2", bottom_wave=False):
+    """Bandeau de contact avec photo à droite."""
+    return f'''  <section class="cta" id="contact" aria-labelledby="h-contact">
+    {WAVE % " flip"}
+    <div class="wrap cta-grid">
+      <div>
+        <p class="eyebrow">{eyebrow}</p>
+        <{h} id="h-contact">{heading}</{h}>
+        <p class="lead">{lead}</p>
+        {phone_block()}
+        {info}
+      </div>
+      <figure class="cta-media">
+        <img src="img/{img}" width="1376" height="768" loading="lazy" style="object-position:{pos}" alt="{alt}">
+      </figure>
+    </div>
+    {WAVE % "" if bottom_wave else ""}
+  </section>
+'''
+
+
+def cta_center(eyebrow, heading, lead, extra_btn="", bg=""):
+    """Bandeau de contact centré, sans photo (ou avec un fond photo teinté)."""
+    style = ""
+    cls = "cta cta-center"
+    if bg:
+        style = (' style="background-image:linear-gradient(rgba(16,44,32,.84),rgba(16,44,32,.84)),url(img/%s)"' % bg)
+        cls += " cta-bg"
+    return f'''  <section class="{cls}" aria-labelledby="h-cta"{style}>
+    {WAVE % " flip"}
+    <div class="wrap">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 id="h-cta">{heading}</h2>
+      <p class="lead">{lead}</p>
+      {phone_block(extra_btn)}
+    </div>
   </section>
 '''
 
@@ -139,24 +196,89 @@ def swap(s, a, b):
 
 PAGES = {}
 
-# Accueil
-PAGES["index.html"] = ("A.R Paysage",
-                       "A.R Paysage, aménagement paysager au Val-Saint-Germain (91) : création de jardin, plantation, entretien.",
-                       HOME.replace("<!--PREST-->\n", "").replace("<!--/PREST-->\n", "")
-                       .replace("<!--SEASONS-->\n", "").replace("<!--/SEASONS-->\n", "")
-                       .replace("<!--ABOUT-->\n", "").replace("<!--/ABOUT-->\n", "")
-                       .replace("<!--CTA-->\n", "").replace("<!--/CTA-->\n", ""))
+# ------------------------------------------------------------------ Accueil
+PAGES["index.html"] = (
+    "A.R Paysage",
+    "A.R Paysage, aménagement paysager au Val-Saint-Germain (91) : création de jardin, plantation, entretien.",
+    HOME)
 
-# Prestations
+# ------------------------------------------------------------------ Prestations
+MOSAIC = '''<div class="mosaic">
+          <img class="m1" src="img/plantation.jpg" width="1400" height="764" style="object-position:62% 50%" alt="Jardinier qui plante un arbuste dans un massif de terre fraîchement travaillée">
+          <img class="m2" src="img/terrassement.jpg" width="1376" height="768" style="object-position:68% 50%" alt="Terre décaissée à la pelle à côté d'une pelouse">
+          <img class="m3" src="img/dechets-verts.jpg" width="1408" height="768" style="object-position:55% 50%" alt="Branchages chargés sur une remorque après la taille d'une haie">
+        </div>'''
+PREST_ACTIONS = '''<div class="hero-actions">
+            <a class="btn btn-band" href="#amenager">Aménager</a>
+            <a class="btn btn-ghost" href="#entretien">Entretenir</a>
+          </div>'''
+
+AMENAGER = [
+    ("creation-espace-vert.jpg", "70% 50%", "Création d'espaces verts",
+     "Un jardin se pense avant de se planter. Pelouse, massifs, allées et bordures sont organisés pour s'accorder à la maison et à la façon dont vous vivez dehors.",
+     "Pelouse aux courbes douces, bordures et paillage autour d'une plantation de graminées"),
+    ("plantation.jpg", "62% 50%", "Plantation",
+     "Arbustes, vivaces et haies sont installés à leur place, dans une terre préparée, pour bien démarrer et s'épanouir au fil des saisons.",
+     "Arbuste planté dans un massif de terre fraîchement travaillée"),
+    ("terrassement.jpg", "68% 50%", "Terrassement",
+     "Décaissement, remblai et modelage du terrain : la base indispensable avant de semer, de planter ou d'aménager.",
+     "Terre décaissée à la pelle, brouette et tas de terre à côté d'une pelouse"),
+    ("nivellement.jpg", "45% 50%", "Nivellement et préparation du sol",
+     "Un sol aplani et affiné au râteau, prêt à recevoir une pelouse ou de nouvelles plantations.",
+     "Terrain nivelé au râteau large avant la remise en pelouse"),
+]
+ENTRETENIR = [
+    ("tonte.jpg", "60% 50%", "Tonte de pelouse", "Des passages réguliers pour une pelouse nette, au rythme de la pousse.", "Tonte d'une pelouse devant une maison aux volets bleus"),
+    ("taille-haies.jpg", "40% 50%", "Taille de haies", "Haies taillées à la bonne hauteur, au bon moment, pour rester denses et propres.", "Taille d'une haie de laurier au taille-haie"),
+    ("desherbage.jpg", "60% 50%", "Désherbage", "Massifs et allées gravillonnées débarrassés des mauvaises herbes.", "Désherbage d'un massif fleuri le long d'une allée de gravier"),
+    ("feuilles.jpg", "68% 50%", "Ramassage de feuilles", "Pelouse, massifs et allées dégagés des feuilles tombées à l'automne.", "Ramassage des feuilles d'automne au râteau"),
+    ("dechets-verts.jpg", "55% 50%", "Évacuation des déchets verts", "Tailles, tontes et feuilles chargées et emportées une fois le travail terminé.", "Chargement de branchages sur une remorque"),
+]
+rows = "\n".join(
+    f'''        <article class="row-card">
+          <img src="img/{f}" width="1400" height="764" loading="lazy" style="object-position:{pos}" alt="{alt}">
+          <div><h3>{t}</h3><p>{d}</p></div>
+        </article>''' for f, pos, t, d, alt in AMENAGER)
+svcs = "\n".join(
+    f'''          <li class="svc">
+            <img src="img/{f}" width="400" height="400" loading="lazy" style="object-position:{pos}" alt="{alt}">
+            <div><h3>{t}</h3><p>{d}</p></div>
+          </li>''' for f, pos, t, d, alt in ENTRETENIR)
+
 PAGES["prestations.html"] = (
     "Prestations · A.R Paysage",
     "Prestations d'A.R Paysage au Val-Saint-Germain : création d'espaces verts, plantation, terrassement, tonte, taille de haies, désherbage.",
     page_hero("Prestations", "Prestations", "Aménager et entretenir votre jardin.",
-              "De la création du jardin à son entretien au fil des saisons, A.R Paysage intervient aux différentes étapes.")
-    + PREST
-    + SEASONS + CTA)
+              "De la création du jardin à son entretien au fil des saisons, A.R Paysage intervient aux différentes étapes.",
+              media=MOSAIC, actions=PREST_ACTIONS)
+    + f'''  <section class="section" id="amenager" aria-labelledby="h-amen">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Aménager</p>
+        <h2 id="h-amen">Un terrain prêt, puis un jardin qui prend forme.</h2>
+        <p>Les travaux qui donnent au jardin sa structure : le dessin, la terre, les premières plantations.</p>
+      </div>
+      <div class="rows">
+{rows}
+      </div>
+    </div>
+  </section>
+  <section class="section band-tint" id="entretien" aria-labelledby="h-entr">
+    <div class="wrap svc-wrap">
+      <div class="section-head">
+        <p class="eyebrow">Entretenir</p>
+        <h2 id="h-entr">Le jardin reste soigné, saison après saison.</h2>
+        <p>Les gestes réguliers qui gardent la pelouse, les haies et les massifs en ordre.</p>
+      </div>
+      <ul class="svc-list">
+{svcs}
+      </ul>
+    </div>
+  </section>
+''' + cta_center("Un projet de jardin ?", "Décrivez-le directement à l'entreprise.",
+                 "A.R Paysage répond aux particuliers du Val-Saint-Germain et des environs."))
 
-# Réalisations
+# ------------------------------------------------------------------ Réalisations
 GALLERY = [
     ("jardin-ambiance.jpg", 1408, 768, "55% 50%", "Jardin de campagne avec pelouse, massifs et allée de gravier devant une maison en pierre", "Jardin et massifs", "Pelouse, massifs et allée de gravier"),
     ("creation-espace-vert.jpg", 1408, 768, "72% 50%", "Jardin neuf aux bordures courbes, pelouse, paillage et graminées devant une maison moderne", "Création d'espace vert", "Pelouse, massifs et bordures"),
@@ -168,83 +290,101 @@ GALLERY = [
     ("terrassement.jpg", 1376, 768, "68% 50%", "Terre décaissée à la pelle, brouette et tas de terre à côté d'une pelouse", "Terrassement", "Terrain décaissé"),
     ("feuilles.jpg", 1400, 764, "68% 50%", "Ramassage des feuilles d'automne au râteau, avec sac de jardin et brouette", "Jardin en automne", "Ramassage des feuilles"),
 ]
+
+
 def fig_html(items):
     return "\n".join(
-    f'''        <figure class="real">
+        f'''        <figure class="real">
           <img src="img/{f}" width="{w}" height="{h}" loading="lazy" style="object-position:{pos}" alt="{alt}">
           <figcaption>{cap}<span>{sub}</span></figcaption>
         </figure>''' for f, w, h, pos, alt, cap, sub in items)
 
 
-figs = (fig_html(GALLERY[:6]), fig_html(GALLERY[6:]))
 PAGES["realisations.html"] = (
     "Réalisations · A.R Paysage",
     "Aperçu de travaux d'aménagement et d'entretien de jardin par A.R Paysage, au Val-Saint-Germain.",
     page_hero("Réalisations", "Réalisations", "Des jardins aménagés et entretenus.",
-              "Un aperçu du travail d'aménagement et d'entretien de jardin.")
+              "Neuf scènes de jardin : pelouses, haies, massifs et terrains en préparation.")
     + f'''  <section class="section" aria-label="Galerie">
     <div class="wrap">
       <div class="real-grid">
-{figs[0]}
+{fig_html(GALLERY[:6])}
       </div>
     </div>
   </section>
   <section class="section band-tint" aria-label="Galerie, suite">
     <div class="wrap">
       <div class="real-grid real-big">
-{figs[1]}
+{fig_html(GALLERY[6:])}
       </div>
     </div>
   </section>
-''' + CTA)
+''' + cta_center("Votre jardin", "Et si le prochain, c'était le vôtre ?",
+                 "Parlez de votre projet à A.R Paysage par téléphone.",
+                 extra_btn='<a class="btn btn-ghost" href="prestations.html">Voir les prestations</a>',
+                 bg="entretien-general.jpg"))
 
-# À propos
-ZONE = '''  <section class="section seasons" id="zone" aria-labelledby="h-zone">
-    <div class="wrap about-grid">
-      <div class="about-body">
-        <p class="eyebrow">Zone d'intervention</p>
-        <h2 id="h-zone">Le Val-Saint-Germain et alentours.</h2>
-        <p>A.R Paysage travaille au Val-Saint-Germain et dans les communes voisines. Pour savoir si votre jardin est dans le secteur, le plus simple est d'appeler l'entreprise.</p>
-        <p style="margin-top:1.6rem"><a class="btn btn-line" href="prestations.html">Voir les prestations</a></p>
-      </div>
-      <dl class="id-card" style="margin:0">
-        <div><dt>Commune</dt><dd>Le Val-Saint-Germain</dd></div>
-        <div><dt>Département</dt><dd>Essonne (91)</dd></div>
-        <div><dt>Secteur</dt><dd>Le Val-Saint-Germain et alentours</dd></div>
-        <div><dt>Téléphone</dt><dd><a href="tel:+33699201849">06 99 20 18 49</a></dd></div>
-      </dl>
-    </div>
-  </section>
-'''
-ABOUT_PAGE = swap(swap(ABOUT, '<h2 id="h-apropos">', '<h2 id="h-apropos">'), '        <p style="margin-top:1.6rem"><a class="btn btn-line" href="a-propos.html">En savoir plus</a></p>\n', "")
+# ------------------------------------------------------------------ À propos
+APROPOS_MEDIA = '''<div class="mosaic mosaic-one">
+          <img class="m1" src="img/entretien-general.jpg" width="1376" height="768" style="object-position:62% 50%" alt="Entretien d'un jardin devant une maison en pierre : tonte de la pelouse et ratissage de la terrasse">
+        </div>'''
 PAGES["a-propos.html"] = (
     "À propos · A.R Paysage",
     "A.R Paysage, SARL d'aménagement paysager installée au Val-Saint-Germain (91) depuis 2013.",
     page_hero("À propos", "À propos", "Un paysagiste de proximité.",
-              "SARL installée au Val-Saint-Germain depuis 2013, A.R Paysage aménage et entretient les jardins du secteur.")
-    + ABOUT_PAGE + ZONE + CTA)
+              "SARL installée au Val-Saint-Germain depuis 2013, A.R Paysage aménage et entretient les jardins du secteur.",
+              media=APROPOS_MEDIA)
+    + '''  <section class="section" id="a-propos" aria-labelledby="h-apropos">
+    <div class="wrap about-grid">
+      <figure class="about-media">
+        <img src="img/dechets-verts.jpg" width="1408" height="768" loading="lazy" style="object-position:55% 50%" alt="Jardinier qui charge des branchages sur une remorque devant une maison en pierre">
+      </figure>
+      <div class="about-body">
+        <p class="eyebrow">L'entreprise</p>
+        <h2 id="h-apropos">Du jardin à créer au jardin à entretenir.</h2>
+        <p>A.R Paysage est une SARL créée en 2013 au Val-Saint-Germain, en Essonne. Son activité déclarée : les services d'aménagement paysager.</p>
+        <p>Pour un projet ou un entretien régulier, le plus simple est d'en parler directement avec l'entreprise.</p>
+        <dl class="id-card">
+          <div><dt>Activité</dt><dd>Services d'aménagement paysager</dd></div>
+          <div><dt>Forme</dt><dd>SARL</dd></div>
+          <div><dt>Depuis</dt><dd>2013</dd></div>
+          <div><dt>SIREN</dt><dd>791 175 508</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+  <section class="section statement" id="zone" aria-labelledby="h-zone">
+    <div class="wrap">
+      <p class="eyebrow">Zone d'intervention</p>
+      <h2 id="h-zone">Le Val-Saint-Germain et alentours.</h2>
+      <p>A.R Paysage travaille au Val-Saint-Germain et dans les communes voisines. Pour savoir si votre jardin est dans le secteur, appelez l'entreprise.</p>
+      <a class="btn" href="contact.html">Contacter l'entreprise</a>
+    </div>
+  </section>
+''' + cta_split("Une question ?", "Un projet ou une demande d'intervention ?",
+                "Le plus direct reste un appel à l'entreprise.",
+                "plantation.jpg", "Jardinier qui plante un arbuste dans un massif de terre", "62% 50%"))
 
-# Contact
-CONTACT_CTA = swap(CTA, '<h2 id="h-contact">Un jardin à créer ou à remettre en ordre ?</h2>', '<h1 id="h-contact">Un jardin à créer ou à remettre en ordre ?</h1>')
-CONTACT_CTA = swap(CONTACT_CTA, "  </section>\n", "    " + WAVE % "" + "\n  </section>\n")
+# ------------------------------------------------------------------ Contact
 PAGES["contact.html"] = (
     "Contact · A.R Paysage",
     "Contacter A.R Paysage, paysagiste au Val-Saint-Germain (91) : 06 99 20 18 49.",
-    CONTACT_CTA + '''  <section class="section" aria-labelledby="h-coord">
+    cta_split("Contact", "Parlons de votre jardin.",
+              "Une question, un projet, une demande d'intervention : le téléphone est le moyen le plus direct.",
+              "feuilles.jpg", "Jardinier qui ratisse les feuilles d'automne dans un jardin", "68% 50%", h="h1", bottom_wave=True)
+    + '''  <section class="section" aria-labelledby="h-coord">
     <div class="wrap about-grid">
       <div class="about-body">
         <p class="eyebrow">Coordonnées</p>
-        <h2 id="h-coord">Les informations de l'entreprise.</h2>
-        <p>Le téléphone est le moyen le plus direct pour décrire votre projet à A.R Paysage.</p>
+        <h2 id="h-coord">Où et comment joindre l'entreprise.</h2>
+        <p>Pas de formulaire ni d'e-mail pour l'instant : un appel suffit pour décrire votre jardin et votre besoin.</p>
         <p style="margin-top:1.6rem"><a class="btn btn-line" href="prestations.html">Voir les prestations</a></p>
       </div>
       <dl class="id-card" style="margin:0">
         <div><dt>Téléphone</dt><dd><a href="tel:+33699201849">06 99 20 18 49</a></dd></div>
-        <div><dt>Commune</dt><dd>Le Val-Saint-Germain (91)</dd></div>
+        <div><dt>Commune</dt><dd>Le Val-Saint-Germain</dd></div>
+        <div><dt>Département</dt><dd>Essonne (91)</dd></div>
         <div><dt>Secteur</dt><dd>Le Val-Saint-Germain et alentours</dd></div>
-        <div><dt>Activité</dt><dd>Services d'aménagement paysager</dd></div>
-        <div><dt>Forme</dt><dd>SARL</dd></div>
-        <div><dt>SIREN</dt><dd>791 175 508</dd></div>
       </dl>
     </div>
   </section>
@@ -255,14 +395,21 @@ for fname, (title, desc, body) in PAGES.items():
     open(os.path.join(ROOT, fname), "w", encoding="utf-8").write(out)
     print("écrit", fname, len(out))
 
-# Contrôles : fichiers présents, liens internes valides, images existantes
+# Contrôles : liens internes (fichier + ancre) et images existantes
 bad = 0
+ids = {}
 for fname in PAGES:
     html = open(os.path.join(ROOT, fname), encoding="utf-8").read()
-    for ref in re.findall(r'(?:href|src)="([^"#:]+?)(?:#[^"]*)?"', html):
+    ids[fname] = set(re.findall(r'id="([^"]+)"', html))
+for fname in PAGES:
+    html = open(os.path.join(ROOT, fname), encoding="utf-8").read()
+    for ref in re.findall(r'(?:href|src)="([^"]+)"', html):
         if ref.startswith(("http", "data:", "tel", "mailto")):
             continue
-        if not os.path.exists(os.path.join(ROOT, ref)):
-            print("LIEN CASSÉ", fname, ref)
-            bad += 1
+        path, _, anchor = ref.partition("#")
+        target = path or fname
+        if not os.path.exists(os.path.join(ROOT, target)):
+            print("LIEN CASSÉ", fname, ref); bad += 1
+        elif anchor and target.endswith(".html") and anchor not in ids.get(target, set()):
+            print("ANCRE ABSENTE", fname, ref); bad += 1
 sys.exit(1 if bad else 0)

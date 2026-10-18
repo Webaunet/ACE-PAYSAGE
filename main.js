@@ -12,7 +12,7 @@
   function selectPhone(){
     try{var r=document.createRange();r.selectNodeContents(phone);var s=window.getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}
   }
-  copy.addEventListener('click',function(){
+  if(copy&&msg&&phone)copy.addEventListener('click',function(){
     var done=function(t){msg.textContent=t;setTimeout(function(){msg.textContent=''},3000)};
     try{
       navigator.clipboard.writeText('06 99 20 18 49').then(function(){done('Numéro copié.')},function(){selectPhone();done('Numéro sélectionné, copiez-le.')});
