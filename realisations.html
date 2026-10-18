@@ -33,16 +33,29 @@
 </header>
 
 <main>
-  <section class="page-hero" aria-labelledby="h1">
+  <section class="page-hero has-media" aria-labelledby="h1">
     <div class="wrap">
       <nav class="crumbs" aria-label="Fil d'Ariane"><a href="index.html">Accueil</a> / <span>Réalisations</span></nav>
-      <p class="eyebrow">Réalisations</p>
-      <h1 id="h1">Des jardins aménagés et entretenus.</h1>
-      <p class="lead">Neuf scènes de jardin : pelouses, haies, massifs et terrains en préparation.</p>
+      <div class="page-hero-grid">
+        <div>
+          <p class="eyebrow">Réalisations</p>
+          <h1 id="h1">Des jardins aménagés et entretenus.</h1>
+          <p class="lead">Neuf scènes de jardin : pelouses, haies, massifs et terrains en préparation.</p>
+          <div class="hero-actions">
+            <a class="btn btn-band" href="#galerie">Voir la galerie</a>
+            <a class="btn btn-ghost" href="prestations.html">Les prestations</a>
+          </div>
+        </div>
+        <div class="polaroids">
+          <figure class="pola p1"><img src="img/taille-haie-pavillon.jpg" width="1408" height="768" style="object-position:48% 50%" alt="Longue haie taillée devant un pavillon en brique"><figcaption>Haie taillée</figcaption></figure>
+          <figure class="pola p2"><img src="img/jardin-ambiance.jpg" width="1408" height="768" style="object-position:55% 50%" alt="Jardin de campagne avec pelouse, massifs et allée de gravier"><figcaption>Jardin et massifs</figcaption></figure>
+          <figure class="pola p3"><img src="img/feuilles.jpg" width="1400" height="764" style="object-position:68% 50%" alt="Ramassage des feuilles d'automne au râteau"><figcaption>Jardin en automne</figcaption></figure>
+        </div>
+      </div>
     </div>
     <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 60V32C220 2 430 58 700 30S1180 4 1440 34V60Z" fill="currentColor"/></svg>
   </section>
-  <section class="section" aria-label="Galerie">
+  <section class="section" id="galerie" aria-label="Galerie">
     <div class="wrap">
       <div class="real-grid">
         <figure class="real">

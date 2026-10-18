@@ -410,3 +410,52 @@ section[id],header[id]{scroll-margin-top:84px}
 /* Vagues : la couleur reprend celle de la section précédente */
 .band-tint + .cta > .wave.flip{color:var(--tint)}
 .statement + .cta > .wave.flip{color:var(--surface)}
+
+/* En-tête de la page Réalisations : photos posées en éventail */
+.polaroids{position:relative;height:clamp(300px,50vh,500px);min-width:0}
+.pola{position:absolute;margin:0;width:46%;background:#FBFBF6;padding:10px 10px 12px;border-radius:6px;box-shadow:0 16px 34px rgba(0,0,0,.3);transition:transform .35s ease}
+.pola img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;display:block;border-radius:2px}
+.pola figcaption{margin-top:.55rem;font:600 .95rem/1.2 var(--font-display);color:#14261C;text-align:center}
+.p1{left:0;top:10%;transform:rotate(-5deg);z-index:1}
+.p2{left:27%;top:0;transform:rotate(2.5deg);z-index:3;width:48%}
+.p3{right:0;top:20%;transform:rotate(-2deg);z-index:2}
+.pola:hover{transform:rotate(0) translateY(-8px);z-index:4}
+@media (prefers-reduced-motion:reduce){.pola{transition:none}}
+@media (max-width:980px){.polaroids{height:clamp(240px,62vw,420px)}}
+
+/* Formulaire de contact */
+.contact-grid{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center}
+.form-card{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:clamp(18px,3vw,40px);min-width:0}
+.form-card h3{font-size:1.5rem}
+.form-card .form-intro{color:var(--muted);margin:.3rem 0 1.2rem;font-size:.97rem}
+.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,1.6vh,16px) 16px}
+.field{display:flex;flex-direction:column;gap:.35rem;min-width:0}
+.field.full{grid-column:1/-1}
+.field > label,.field > .lbl{font:600 .78rem/1.3 var(--font-body);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.field input[type=text],.field input[type=tel],.field select,.field textarea{
+  width:100%;font:500 1rem/1.4 var(--font-body);color:var(--ink);background:var(--bg);
+  border:1.5px solid var(--line);border-radius:14px;padding:.8rem 1rem;min-height:50px;transition:border-color .15s,box-shadow .15s;appearance:none;-webkit-appearance:none}
+.field textarea{resize:vertical;min-height:96px}
+.field input::placeholder,.field textarea::placeholder{color:var(--muted);opacity:.7}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.field.invalid input,.field.invalid select{border-color:#B3402A}
+.field .err{color:#B3402A;font-size:.85rem;min-height:0}
+:root[data-theme="dark"] .field .err{color:#F1907B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .field .err,:root:not([data-theme="light"]) .field.invalid input,:root:not([data-theme="light"]) .field.invalid select{color:#F1907B;border-color:#F1907B}}
+.select-wrap{position:relative}
+.select-wrap::after{content:"";position:absolute;right:1.1rem;top:50%;width:8px;height:8px;border:solid var(--muted);border-width:0 2px 2px 0;transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.select-wrap select{padding-right:2.6rem}
+.pills{display:flex;flex-wrap:wrap;gap:.4rem}
+.pill{position:relative}
+.pill input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.pill span{display:inline-block;padding:.38rem .85rem;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);font-size:.9rem;font-weight:500;transition:background-color .15s,color .15s,border-color .15s}
+.pill input:checked + span{background:var(--band);border-color:var(--band);color:var(--on-band)}
+.pill input:focus-visible + span{outline:3px solid var(--accent);outline-offset:2px}
+.form-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.8rem 1.2rem;margin-top:1.1rem}
+.form-actions .note{color:var(--muted);font-size:.88rem;flex:1 1 14rem}
+.recap-text{width:100%;font:500 .98rem/1.55 var(--font-body);color:var(--ink);background:var(--bg);border:1.5px dashed var(--line);border-radius:16px;padding:1rem 1.1rem;min-height:140px;resize:none;margin-top:1rem}
+.recap-actions{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1rem}
+.recap-note{margin-top:.9rem;color:var(--muted);font-size:.9rem}
+@media (max-width:980px){.contact-grid{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:620px){.field-grid{grid-template-columns:minmax(0,1fr)}.recap-actions .btn,.form-actions .btn{width:100%}}
+

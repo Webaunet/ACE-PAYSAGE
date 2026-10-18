@@ -300,12 +300,23 @@ def fig_html(items):
         </figure>''' for f, w, h, pos, alt, cap, sub in items)
 
 
+POLAROIDS = '''<div class="polaroids">
+          <figure class="pola p1"><img src="img/taille-haie-pavillon.jpg" width="1408" height="768" style="object-position:48% 50%" alt="Longue haie taillée devant un pavillon en brique"><figcaption>Haie taillée</figcaption></figure>
+          <figure class="pola p2"><img src="img/jardin-ambiance.jpg" width="1408" height="768" style="object-position:55% 50%" alt="Jardin de campagne avec pelouse, massifs et allée de gravier"><figcaption>Jardin et massifs</figcaption></figure>
+          <figure class="pola p3"><img src="img/feuilles.jpg" width="1400" height="764" style="object-position:68% 50%" alt="Ramassage des feuilles d'automne au râteau"><figcaption>Jardin en automne</figcaption></figure>
+        </div>'''
+REAL_ACTIONS = '''<div class="hero-actions">
+            <a class="btn btn-band" href="#galerie">Voir la galerie</a>
+            <a class="btn btn-ghost" href="prestations.html">Les prestations</a>
+          </div>'''
+
 PAGES["realisations.html"] = (
     "Réalisations · A.R Paysage",
     "Aperçu de travaux d'aménagement et d'entretien de jardin par A.R Paysage, au Val-Saint-Germain.",
     page_hero("Réalisations", "Réalisations", "Des jardins aménagés et entretenus.",
-              "Neuf scènes de jardin : pelouses, haies, massifs et terrains en préparation.")
-    + f'''  <section class="section" aria-label="Galerie">
+              "Neuf scènes de jardin : pelouses, haies, massifs et terrains en préparation.",
+              media=POLAROIDS, actions=REAL_ACTIONS)
+    + f'''  <section class="section" id="galerie" aria-label="Galerie">
     <div class="wrap">
       <div class="real-grid">
 {fig_html(GALLERY[:6])}
@@ -372,20 +383,88 @@ PAGES["contact.html"] = (
     cta_split("Contact", "Parlons de votre jardin.",
               "Une question, un projet, une demande d'intervention : le téléphone est le moyen le plus direct.",
               "feuilles.jpg", "Jardinier qui ratisse les feuilles d'automne dans un jardin", "68% 50%", h="h1", bottom_wave=True)
-    + '''  <section class="section" aria-labelledby="h-coord">
-    <div class="wrap about-grid">
+    + '''  <section class="section" id="formulaire" aria-labelledby="h-coord">
+    <div class="wrap about-grid contact-grid">
       <div class="about-body">
-        <p class="eyebrow">Coordonnées</p>
-        <h2 id="h-coord">Où et comment joindre l'entreprise.</h2>
-        <p>Pas de formulaire ni d'e-mail pour l'instant : un appel suffit pour décrire votre jardin et votre besoin.</p>
-        <p style="margin-top:1.6rem"><a class="btn btn-line" href="prestations.html">Voir les prestations</a></p>
+        <p class="eyebrow">Votre demande</p>
+        <h2 id="h-coord">Décrivez votre jardin et votre besoin.</h2>
+        <p>Préparez votre demande ici, puis transmettez-la à l'entreprise par SMS ou par téléphone.</p>
+        <dl class="id-card">
+          <div><dt>Téléphone</dt><dd><a href="tel:+33699201849">06 99 20 18 49</a></dd></div>
+          <div><dt>Commune</dt><dd>Le Val-Saint-Germain</dd></div>
+          <div><dt>Département</dt><dd>Essonne (91)</dd></div>
+          <div><dt>Secteur</dt><dd>Le Val-Saint-Germain et alentours</dd></div>
+        </dl>
       </div>
-      <dl class="id-card" style="margin:0">
-        <div><dt>Téléphone</dt><dd><a href="tel:+33699201849">06 99 20 18 49</a></dd></div>
-        <div><dt>Commune</dt><dd>Le Val-Saint-Germain</dd></div>
-        <div><dt>Département</dt><dd>Essonne (91)</dd></div>
-        <div><dt>Secteur</dt><dd>Le Val-Saint-Germain et alentours</dd></div>
-      </dl>
+      <div class="form-card">
+        <form id="contact-form" novalidate>
+          <h3>Préparer ma demande</h3>
+          <p class="form-intro">Quelques lignes suffisent. Les champs marqués * sont nécessaires.</p>
+          <div class="field-grid">
+            <div class="field">
+              <label for="f-nom">Nom *</label>
+              <input type="text" id="f-nom" name="nom" autocomplete="name" placeholder="Votre nom">
+              <span class="err" id="e-nom" role="alert"></span>
+            </div>
+            <div class="field">
+              <label for="f-tel">Téléphone *</label>
+              <input type="tel" id="f-tel" name="tel" autocomplete="tel" inputmode="tel" placeholder="06 00 00 00 00">
+              <span class="err" id="e-tel" role="alert"></span>
+            </div>
+            <div class="field">
+              <label for="f-commune">Commune</label>
+              <input type="text" id="f-commune" name="commune" autocomplete="address-level2" placeholder="Votre commune">
+            </div>
+            <div class="field">
+              <label for="f-besoin">Je souhaite *</label>
+              <div class="select-wrap">
+                <select id="f-besoin" name="besoin">
+                  <option value="">Choisir…</option>
+                  <option>Aménager mon jardin</option>
+                  <option>Entretenir mon jardin</option>
+                  <option>Aménager et entretenir mon jardin</option>
+                  <option>Autre demande</option>
+                </select>
+              </div>
+              <span class="err" id="e-besoin" role="alert"></span>
+            </div>
+            <div class="field full">
+              <span class="lbl" id="l-presta">Prestations concernées</span>
+              <div class="pills" role="group" aria-labelledby="l-presta">
+              <label class="pill"><input type="checkbox" name="prestations" value="Création d'espaces verts" id="svc-1"><span>Création d'espaces verts</span></label>
+              <label class="pill"><input type="checkbox" name="prestations" value="Plantation" id="svc-2"><span>Plantation</span></label>
+              <label class="pill"><input type="checkbox" name="prestations" value="Terrassement" id="svc-3"><span>Terrassement</span></label>
+              <label class="pill"><input type="checkbox" name="prestations" value="Nivellement" id="svc-4"><span>Nivellement</span></label>
+              <label class="pill"><input type="checkbox" name="prestations" value="Tonte" id="svc-5"><span>Tonte</span></label>
+              <label class="pill"><input type="checkbox" name="prestations" value="Taille de haies" id="svc-6"><span>Taille de haies</span></label>
+              <label class="pill"><input type="checkbox" name="prestations" value="Désherbage" id="svc-7"><span>Désherbage</span></label>
+              <label class="pill"><input type="checkbox" name="prestations" value="Ramassage de feuilles" id="svc-8"><span>Ramassage de feuilles</span></label>
+              <label class="pill"><input type="checkbox" name="prestations" value="Déchets verts" id="svc-9"><span>Déchets verts</span></label>
+              </div>
+            </div>
+            <div class="field full">
+              <label for="f-message">Message</label>
+              <textarea id="f-message" name="message" rows="3" placeholder="Surface, état du jardin, période souhaitée…"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn" type="submit">Préparer ma demande</button>
+            <p class="note">Rien n'est envoyé automatiquement : vous choisissez ensuite comment transmettre votre demande.</p>
+          </div>
+        </form>
+        <div id="recap" hidden>
+          <h3>Votre demande est prête</h3>
+          <p class="form-intro">Relisez-la, puis transmettez-la à l'entreprise.</p>
+          <textarea class="recap-text" id="recap-text" readonly aria-label="Texte de votre demande"></textarea>
+          <div class="recap-actions">
+            <a class="btn" id="recap-sms" href="sms:+33699201849">Envoyer par SMS</a>
+            <button class="btn btn-line" type="button" id="recap-copy">Copier la demande</button>
+            <a class="btn btn-line" href="tel:+33699201849">Appeler le 06 99 20 18 49</a>
+          </div>
+          <p class="recap-note" id="recap-status" role="status" aria-live="polite">Le SMS s'ouvre dans votre messagerie, sur mobile. Sur ordinateur, copiez la demande ou appelez l'entreprise.</p>
+          <p style="margin-top:.8rem"><button class="btn btn-sm btn-line" type="button" id="recap-edit">Modifier ma demande</button></p>
+        </div>
+      </div>
     </div>
   </section>
 ''')
@@ -404,7 +483,7 @@ for fname in PAGES:
 for fname in PAGES:
     html = open(os.path.join(ROOT, fname), encoding="utf-8").read()
     for ref in re.findall(r'(?:href|src)="([^"]+)"', html):
-        if ref.startswith(("http", "data:", "tel", "mailto")):
+        if ref.startswith(("http", "data:", "tel", "mailto", "sms")):
             continue
         path, _, anchor = ref.partition("#")
         target = path or fname
