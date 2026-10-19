@@ -15,7 +15,7 @@
   if(copy&&msg&&phone)copy.addEventListener('click',function(){
     var done=function(t){msg.textContent=t;setTimeout(function(){msg.textContent=''},3000)};
     try{
-      navigator.clipboard.writeText('06 99 20 18 49').then(function(){done('Numéro copié.')},function(){selectPhone();done('Numéro sélectionné, copiez-le.')});
+      navigator.clipboard.writeText('06 22 62 31 86').then(function(){done('Numéro copié.')},function(){selectPhone();done('Numéro sélectionné, copiez-le.')});
     }catch(e){selectPhone();done('Numéro sélectionné, copiez-le.')}
   });
 
@@ -43,7 +43,8 @@
       if(val('f-message'))lines.push('Message : '+val('f-message'));
       lines.push('Merci de me rappeler au '+val('f-tel')+'. '+val('f-nom'));
       txt.value=lines.join('\n');
-      sms.href='sms:+33699201849?&body='+encodeURIComponent(txt.value);
+      sms.href='sms:+33622623186?&body='+encodeURIComponent(txt.value);
+      document.getElementById('recap-mail').href='mailto:ace.paysage@hotmail.com?subject='+encodeURIComponent('Demande via le site : '+val('f-besoin'))+'&body='+encodeURIComponent(txt.value);
       form.hidden=true;recap.hidden=false;
       txt.style.height='auto';txt.style.height=(txt.scrollHeight+4)+'px';
       recap.scrollIntoView({block:'nearest'});

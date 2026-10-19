@@ -1,6 +1,6 @@
-# A.R Paysage — maquette de site
+# ACE Paysage IDF — maquette de site
 
-Maquette de site vitrine pour **A.R Paysage**, entreprise d'aménagement paysager au Val-Saint-Germain (91).
+Maquette de site vitrine pour **ACE Paysage IDF**, entreprise d'aménagement paysager aux Alluets-le-Roi (78).
 
 Pages : `index.html` (accueil), `prestations.html`, `realisations.html`, `a-propos.html`, `contact.html`.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Génère les pages HTML du site A.R Paysage (maquette).
+"""Génère les pages HTML du site ACE Paysage IDF (maquette).
 
 Usage : python3 outils/build.py   (depuis la racine du dépôt)
 Le corps de l'accueil est dans outils/pages/index.html ; les autres pages sont composées ici.
@@ -27,8 +27,8 @@ PHONE_ICON = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 WAVE = ('<svg class="wave%s" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">'
         '<path d="M0 60V32C220 2 430 58 700 30S1180 4 1440 34V60Z" fill="currentColor"/></svg>')
 FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' "
-           "rx='14' fill='%2316382A'/%3E%3Ctext x='32' y='43' font-family='Arial' font-weight='800' font-size='30' "
-           "text-anchor='middle' fill='%23D6E4F6'%3EA.R%3C/text%3E%3C/svg%3E")
+           "rx='14' fill='%2316382A'/%3E%3Ctext x='32' y='43' font-family='Arial' font-weight='800' font-size='25' "
+           "text-anchor='middle' fill='%23D6E4F6'%3EACE%3C/text%3E%3C/svg%3E")
 
 
 def header(active):
@@ -36,15 +36,15 @@ def header(active):
         '      <a class="link" href="%s"%s>%s</a>' % (h, ' aria-current="page"' if h == active else "", t) for h, t in NAV)
     return f'''<header class="site-header" id="top">
   <div class="wrap bar">
-    <a class="logo" href="https://webaunet.github.io/AR-paysage" aria-label="A.R Paysage, accueil"><b>A.R</b><span>Paysage</span></a>
+    <a class="logo" href="https://webaunet.github.io/AR-paysage" aria-label="ACE Paysage IDF, accueil"><b>ACE</b><span>Paysage IDF</span></a>
     <button class="burger" id="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
     <nav class="nav" id="nav" aria-label="Navigation principale">
 {links}
-      <a class="btn btn-sm" href="tel:+33699201849">
+      <a class="btn btn-sm" href="tel:+33622623186">
         {PHONE_ICON}
-        06 99 20 18 49
+        06 22 62 31 86
       </a>
     </nav>
   </div>
@@ -58,8 +58,8 @@ def footer():
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <a class="logo" href="https://webaunet.github.io/AR-paysage" aria-label="A.R Paysage, accueil"><b>A.R</b><span>Paysage</span></a>
-        <p style="margin-top:1rem;max-width:26em">Aménagement paysager au Val-Saint-Germain et alentours.</p>
+        <a class="logo" href="https://webaunet.github.io/AR-paysage" aria-label="ACE Paysage IDF, accueil"><b>ACE</b><span>Paysage IDF</span></a>
+        <p style="margin-top:1rem;max-width:26em">Aménagement paysager aux Alluets-le-Roi et alentours.</p>
       </div>
       <div>
         <h5>Navigation</h5>
@@ -70,14 +70,15 @@ def footer():
       <div>
         <h5>Contact</h5>
         <ul>
-          <li><a href="tel:+33699201849">06 99 20 18 49</a></li>
-          <li>Le Val-Saint-Germain (91)</li>
+          <li><a href="tel:+33622623186">06 22 62 31 86</a></li>
+          <li><a href="mailto:ace.paysage@hotmail.com" style="overflow-wrap:anywhere">ace.paysage@hotmail.com</a></li>
+          <li>Les Alluets-le-Roi (78)</li>
         </ul>
       </div>
     </div>
     <div class="foot-note">
-      <span>© 2026 A.R Paysage · Maquette de site</span>
-      <span>SARL · SIREN 791 175 508</span>
+      <span>© 2026 ACE Paysage IDF · Maquette de site</span>
+      <span>Aménagement paysager</span>
     </div>
   </div>
 </footer>
@@ -140,9 +141,9 @@ def page_hero(crumb, eyebrow, h1, lead, media="", actions=""):
 
 
 def phone_block(extra_btn=""):
-    return f'''<a class="phone" href="tel:+33699201849" id="phone">06 99 20 18 49</a>
+    return f'''<a class="phone" href="tel:+33622623186" id="phone">06 22 62 31 86</a>
         <div class="cta-actions">
-          <a class="btn btn-band" href="tel:+33699201849">Appeler</a>
+          <a class="btn btn-band" href="tel:+33622623186">Appeler</a>
           <button class="btn btn-ghost" type="button" id="copy">Copier le numéro</button>
           {extra_btn}
           <span class="copied" id="copied" role="status" aria-live="polite"></span>
@@ -198,8 +199,8 @@ PAGES = {}
 
 # ------------------------------------------------------------------ Accueil
 PAGES["index.html"] = (
-    "A.R Paysage",
-    "A.R Paysage, aménagement paysager au Val-Saint-Germain (91) : création de jardin, plantation, entretien.",
+    "ACE Paysage IDF",
+    "ACE Paysage IDF, aménagement paysager aux Alluets-le-Roi (78) : création de jardin, plantation, entretien.",
     HOME)
 
 # ------------------------------------------------------------------ Prestations
@@ -246,10 +247,10 @@ svcs = "\n".join(
           </li>''' for f, pos, t, d, alt in ENTRETENIR)
 
 PAGES["prestations.html"] = (
-    "Prestations · A.R Paysage",
-    "Prestations d'A.R Paysage au Val-Saint-Germain : création d'espaces verts, plantation, terrassement, tonte, taille de haies, désherbage.",
+    "Prestations · ACE Paysage IDF",
+    "Prestations d'ACE Paysage IDF aux Alluets-le-Roi : création d'espaces verts, plantation, terrassement, tonte, taille de haies, désherbage.",
     page_hero("Prestations", "Prestations", "Aménager et entretenir votre jardin.",
-              "De la création du jardin à son entretien au fil des saisons, A.R Paysage intervient aux différentes étapes.",
+              "De la création du jardin à son entretien au fil des saisons, ACE Paysage IDF intervient aux différentes étapes.",
               media=MOSAIC, actions=PREST_ACTIONS)
     + f'''  <section class="section" id="amenager" aria-labelledby="h-amen">
     <div class="wrap">
@@ -276,7 +277,7 @@ PAGES["prestations.html"] = (
     </div>
   </section>
 ''' + cta_center("Un projet de jardin ?", "Décrivez-le directement à l'entreprise.",
-                 "A.R Paysage répond aux particuliers du Val-Saint-Germain et des environs."))
+                 "ACE Paysage IDF répond aux particuliers des Alluets-le-Roi et des environs."))
 
 # ------------------------------------------------------------------ Réalisations
 GALLERY = [
@@ -311,8 +312,8 @@ REAL_ACTIONS = '''<div class="hero-actions">
           </div>'''
 
 PAGES["realisations.html"] = (
-    "Réalisations · A.R Paysage",
-    "Aperçu de travaux d'aménagement et d'entretien de jardin par A.R Paysage, au Val-Saint-Germain.",
+    "Réalisations · ACE Paysage IDF",
+    "Aperçu de travaux d'aménagement et d'entretien de jardin par ACE Paysage IDF, aux Alluets-le-Roi.",
     page_hero("Réalisations", "Réalisations", "Des jardins aménagés et entretenus.",
               "Neuf scènes de jardin : pelouses, haies, massifs et terrains en préparation.",
               media=POLAROIDS, actions=REAL_ACTIONS)
@@ -331,7 +332,7 @@ PAGES["realisations.html"] = (
     </div>
   </section>
 ''' + cta_center("Votre jardin", "Et si le prochain, c'était le vôtre ?",
-                 "Parlez de votre projet à A.R Paysage par téléphone.",
+                 "Parlez de votre projet à ACE Paysage IDF par téléphone.",
                  extra_btn='<a class="btn btn-ghost" href="prestations.html">Voir les prestations</a>',
                  bg="entretien-general.jpg"))
 
@@ -340,10 +341,10 @@ APROPOS_MEDIA = '''<div class="mosaic mosaic-one">
           <img class="m1" src="img/entretien-general.jpg" width="1376" height="768" style="object-position:62% 50%" alt="Entretien d'un jardin devant une maison en pierre : tonte de la pelouse et ratissage de la terrasse">
         </div>'''
 PAGES["a-propos.html"] = (
-    "À propos · A.R Paysage",
-    "A.R Paysage, SARL d'aménagement paysager installée au Val-Saint-Germain (91) depuis 2013.",
+    "À propos · ACE Paysage IDF",
+    "ACE Paysage IDF, entreprise d'aménagement paysager installée aux Alluets-le-Roi (78).",
     page_hero("À propos", "À propos", "Un paysagiste de proximité.",
-              "SARL installée au Val-Saint-Germain depuis 2013, A.R Paysage aménage et entretient les jardins du secteur.",
+              "Installée aux Alluets-le-Roi, ACE Paysage IDF aménage et entretient les jardins du secteur.",
               media=APROPOS_MEDIA)
     + '''  <section class="section" id="a-propos" aria-labelledby="h-apropos">
     <div class="wrap about-grid">
@@ -353,13 +354,13 @@ PAGES["a-propos.html"] = (
       <div class="about-body">
         <p class="eyebrow">L'entreprise</p>
         <h2 id="h-apropos">Du jardin à créer au jardin à entretenir.</h2>
-        <p>A.R Paysage est une SARL créée en 2013 au Val-Saint-Germain, en Essonne. Son activité déclarée : les services d'aménagement paysager.</p>
+        <p>ACE Paysage IDF est installée aux Alluets-le-Roi, dans les Yvelines. Son activité déclarée : les services d'aménagement paysager.</p>
         <p>Pour un projet ou un entretien régulier, le plus simple est d'en parler directement avec l'entreprise.</p>
         <dl class="id-card">
           <div><dt>Activité</dt><dd>Services d'aménagement paysager</dd></div>
-          <div><dt>Forme</dt><dd>SARL</dd></div>
-          <div><dt>Depuis</dt><dd>2013</dd></div>
-          <div><dt>SIREN</dt><dd>791 175 508</dd></div>
+          <div><dt>Commune</dt><dd>Les Alluets-le-Roi</dd></div>
+          <div><dt>Département</dt><dd>Yvelines (78)</dd></div>
+          <div><dt>E-mail</dt><dd><a href="mailto:ace.paysage@hotmail.com" style="overflow-wrap:anywhere">ace.paysage@hotmail.com</a></dd></div>
         </dl>
       </div>
     </div>
@@ -367,8 +368,8 @@ PAGES["a-propos.html"] = (
   <section class="section statement" id="zone" aria-labelledby="h-zone">
     <div class="wrap">
       <p class="eyebrow">Zone d'intervention</p>
-      <h2 id="h-zone">Le Val-Saint-Germain et alentours.</h2>
-      <p>A.R Paysage travaille au Val-Saint-Germain et dans les communes voisines. Pour savoir si votre jardin est dans le secteur, appelez l'entreprise.</p>
+      <h2 id="h-zone">Les Alluets-le-Roi et alentours.</h2>
+      <p>ACE Paysage IDF travaille aux Alluets-le-Roi et dans les communes voisines. Pour savoir si votre jardin est dans le secteur, appelez l'entreprise.</p>
       <a class="btn" href="contact.html">Contacter l'entreprise</a>
     </div>
   </section>
@@ -378,8 +379,8 @@ PAGES["a-propos.html"] = (
 
 # ------------------------------------------------------------------ Contact
 PAGES["contact.html"] = (
-    "Contact · A.R Paysage",
-    "Contacter A.R Paysage, paysagiste au Val-Saint-Germain (91) : 06 99 20 18 49.",
+    "Contact · ACE Paysage IDF",
+    "Contacter ACE Paysage IDF, paysagiste aux Alluets-le-Roi (78) : 06 22 62 31 86.",
     cta_split("Contact", "Parlons de votre jardin.",
               "Une question, un projet, une demande d'intervention : le téléphone est le moyen le plus direct.",
               "feuilles.jpg", "Jardinier qui ratisse les feuilles d'automne dans un jardin", "68% 50%", h="h1", bottom_wave=True)
@@ -388,12 +389,12 @@ PAGES["contact.html"] = (
       <div class="about-body">
         <p class="eyebrow">Votre demande</p>
         <h2 id="h-coord">Décrivez votre jardin et votre besoin.</h2>
-        <p>Préparez votre demande ici, puis transmettez-la à l'entreprise par SMS ou par téléphone.</p>
+        <p>Préparez votre demande ici, puis transmettez-la à l'entreprise par SMS, par e-mail ou par téléphone.</p>
         <dl class="id-card">
-          <div><dt>Téléphone</dt><dd><a href="tel:+33699201849">06 99 20 18 49</a></dd></div>
-          <div><dt>Commune</dt><dd>Le Val-Saint-Germain</dd></div>
-          <div><dt>Département</dt><dd>Essonne (91)</dd></div>
-          <div><dt>Secteur</dt><dd>Le Val-Saint-Germain et alentours</dd></div>
+          <div><dt>Téléphone</dt><dd><a href="tel:+33622623186">06 22 62 31 86</a></dd></div>
+          <div><dt>E-mail</dt><dd><a href="mailto:ace.paysage@hotmail.com" style="overflow-wrap:anywhere">ace.paysage@hotmail.com</a></dd></div>
+          <div><dt>Commune</dt><dd>Les Alluets-le-Roi</dd></div>
+          <div><dt>Département</dt><dd>Yvelines (78)</dd></div>
         </dl>
       </div>
       <div class="form-card">
@@ -457,11 +458,12 @@ PAGES["contact.html"] = (
           <p class="form-intro">Relisez-la, puis transmettez-la à l'entreprise.</p>
           <textarea class="recap-text" id="recap-text" readonly aria-label="Texte de votre demande"></textarea>
           <div class="recap-actions">
-            <a class="btn" id="recap-sms" href="sms:+33699201849">Envoyer par SMS</a>
+            <a class="btn" id="recap-sms" href="sms:+33622623186">Envoyer par SMS</a>
+            <a class="btn btn-line" id="recap-mail" href="mailto:ace.paysage@hotmail.com">Envoyer par e-mail</a>
             <button class="btn btn-line" type="button" id="recap-copy">Copier la demande</button>
-            <a class="btn btn-line" href="tel:+33699201849">Appeler le 06 99 20 18 49</a>
+            <a class="btn btn-line" href="tel:+33622623186">Appeler le 06 22 62 31 86</a>
           </div>
-          <p class="recap-note" id="recap-status" role="status" aria-live="polite">Le SMS s'ouvre dans votre messagerie, sur mobile. Sur ordinateur, copiez la demande ou appelez l'entreprise.</p>
+          <p class="recap-note" id="recap-status" role="status" aria-live="polite">Le SMS et l'e-mail s'ouvrent dans votre messagerie. Sinon, copiez la demande ou appelez l'entreprise.</p>
           <p style="margin-top:.8rem"><button class="btn btn-sm btn-line" type="button" id="recap-edit">Modifier ma demande</button></p>
         </div>
       </div>
