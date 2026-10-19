@@ -36,7 +36,7 @@ def header(active):
         '      <a class="link" href="%s"%s>%s</a>' % (h, ' aria-current="page"' if h == active else "", t) for h, t in NAV)
     return f'''<header class="site-header" id="top">
   <div class="wrap bar">
-    <a class="logo" href="https://webaunet.github.io/AR-paysage" aria-label="ACE Paysage IDF, accueil"><b>ACE</b><span>Paysage IDF</span></a>
+    <a class="logo" href="https://webaunet.github.io/ACE-PAYSAGE" aria-label="ACE Paysage IDF, accueil"><b>ACE</b><span>Paysage IDF</span></a>
     <button class="burger" id="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
     </button>
@@ -58,7 +58,7 @@ def footer():
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <a class="logo" href="https://webaunet.github.io/AR-paysage" aria-label="ACE Paysage IDF, accueil"><b>ACE</b><span>Paysage IDF</span></a>
+        <a class="logo" href="https://webaunet.github.io/ACE-PAYSAGE" aria-label="ACE Paysage IDF, accueil"><b>ACE</b><span>Paysage IDF</span></a>
         <p style="margin-top:1rem;max-width:26em">Aménagement paysager aux Alluets-le-Roi et alentours.</p>
       </div>
       <div>
