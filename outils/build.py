@@ -78,7 +78,7 @@ def footer():
     </div>
     <div class="foot-note">
       <span>© 2026 ACE Paysage IDF · Maquette de site</span>
-      <span>Aménagement paysager</span>
+      <span>SARL · SIREN 523 262 624</span>
     </div>
   </div>
 </footer>
@@ -342,9 +342,9 @@ APROPOS_MEDIA = '''<div class="mosaic mosaic-one">
         </div>'''
 PAGES["a-propos.html"] = (
     "À propos · ACE Paysage IDF",
-    "ACE Paysage IDF, entreprise d'aménagement paysager installée aux Alluets-le-Roi (78).",
+    "ACE Paysage IDF, SARL d'aménagement paysager installée aux Alluets-le-Roi (78) depuis 2010.",
     page_hero("À propos", "À propos", "Un paysagiste de proximité.",
-              "Installée aux Alluets-le-Roi, ACE Paysage IDF aménage et entretient les jardins du secteur.",
+              "SARL installée aux Alluets-le-Roi depuis 2010, ACE Paysage IDF aménage et entretient les jardins du secteur.",
               media=APROPOS_MEDIA)
     + '''  <section class="section" id="a-propos" aria-labelledby="h-apropos">
     <div class="wrap about-grid">
@@ -354,13 +354,13 @@ PAGES["a-propos.html"] = (
       <div class="about-body">
         <p class="eyebrow">L'entreprise</p>
         <h2 id="h-apropos">Du jardin à créer au jardin à entretenir.</h2>
-        <p>ACE Paysage IDF est installée aux Alluets-le-Roi, dans les Yvelines. Son activité déclarée : les services d'aménagement paysager.</p>
+        <p>ACE Paysage IDF est une SARL créée en 2010 aux Alluets-le-Roi, dans les Yvelines. Son activité déclarée : les services d'aménagement paysager.</p>
         <p>Pour un projet ou un entretien régulier, le plus simple est d'en parler directement avec l'entreprise.</p>
         <dl class="id-card">
           <div><dt>Activité</dt><dd>Services d'aménagement paysager</dd></div>
-          <div><dt>Commune</dt><dd>Les Alluets-le-Roi</dd></div>
-          <div><dt>Département</dt><dd>Yvelines (78)</dd></div>
-          <div><dt>E-mail</dt><dd><a href="mailto:ace.paysage@hotmail.com" style="overflow-wrap:anywhere">ace.paysage@hotmail.com</a></dd></div>
+          <div><dt>Forme</dt><dd>SARL</dd></div>
+          <div><dt>Depuis</dt><dd>2010</dd></div>
+          <div><dt>SIREN</dt><dd>523 262 624</dd></div>
         </dl>
       </div>
     </div>
