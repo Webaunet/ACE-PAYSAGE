@@ -560,3 +560,12 @@ section[id],header[id]{scroll-margin-top:84px}
   .row-card p{font-size:.82rem;line-height:1.45}
 }
 
+
+/* Mobile : galerie sans orpheline, légendes des polaroids lisibles */
+@media (max-width:620px){
+  .real-grid > .real:last-child:nth-child(odd){grid-column:1/-1}
+  .real-grid > .real:last-child:nth-child(odd) img{aspect-ratio:16/9}
+  .p1 figcaption{text-align:left}
+  .pola figcaption{font-size:.8rem}
+  .p2{left:31%}
+}
